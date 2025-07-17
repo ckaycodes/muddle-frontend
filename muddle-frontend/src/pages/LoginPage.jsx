@@ -17,7 +17,7 @@ function LoginPage() {
     setError('');
 
     try {
-      const res = await axios.post('/auth/login', credentials);
+      const res = await api.post('/auth/login', credentials);
       localStorage.setItem('token', res.data.token); // Store JWT
       navigate('/profile'); // or wherever you want to go next
     } catch (err) {

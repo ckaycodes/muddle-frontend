@@ -6,7 +6,6 @@ function StoriesPage() {
   const [newStory, setNewStory] = useState({
   title: '',
   body: '',
-  postedBy: ''
   });
   const [loading, setLoading] = useState(true);
 
@@ -38,7 +37,7 @@ const handleSubmit = async (e) => {
   try {
     const response = await api.post('/stories', newStory);
     setStories(prev => [...prev, response.data]);
-    setNewStory({ title: '', body: '', postedBy: '' });
+    setNewStory({title: '', body: ''});
   } catch (error) {
     console.error('Error posting story:', error);
   }
@@ -79,15 +78,6 @@ const handleSubmit = async (e) => {
           rows={4}
           cols={50}
           value={newStory.body}
-          onChange={handleChange}
-          required
-        /><br /><br />
-
-        <input
-          type="text"
-          name="postedBy"
-          placeholder="Your name (for now)"
-          value={newStory.postedBy}
           onChange={handleChange}
           required
         /><br /><br />
