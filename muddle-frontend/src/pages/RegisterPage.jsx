@@ -18,9 +18,15 @@ function RegisterPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Username -> lowercase
+     const loweredFormData = {
+    ...formData,
+    username: formData.username.toLowerCase()
+  };
+
     try {
-      const response = await api.post('/auth/register', formData);
-      console.log('User created:', response.data);
+      const response = await api.post('/auth/register', loweredFormData);
+      console.log('User created:', response.data); //remove later
       alert('User registered successfully!');
     } catch (error) {
       console.error('Error creating user:', error);

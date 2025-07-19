@@ -1,10 +1,14 @@
 import React, { useState } from 'react';
 import api from '../api/api';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../api/useAuth';
 
 function LoginPage() {
   const [credentials, setCredentials] = useState({ username: '', password: '' });
   const [error, setError] = useState('');
+
+  const { login } = useAuth();
+
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -18,8 +22,10 @@ function LoginPage() {
 
     try {
       const res = await api.post('/auth/login', credentials);
-      localStorage.setItem('token', res.data.token); // Store JWT
-      navigate('/profile'); // or wherever you want to go next
+      login(res.data.token);
+      // localStorage.setItem('token', res.data.token); // Store JWT 
+      
+      navigate('/profile'); 
     } catch (err) {
       console.error('Login failed:', err);
       setError('Invalid username or password.');

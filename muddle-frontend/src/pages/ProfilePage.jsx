@@ -1,9 +1,9 @@
 import React from 'react';
 import { jwtDecode } from 'jwt-decode';
-
-
+import LogoutButton from '../components/LogoutButton';
 
 function ProfilePage() {
+  
   const token = localStorage.getItem('token');
   let username = '';
 
