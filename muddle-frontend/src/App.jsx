@@ -12,8 +12,10 @@ import UsersPage from './pages/UsersPage';
 import LoginPage from './pages/LoginPage';
 import NavBar from './components/NavBar'; 
 import { AuthProvider } from './context/AuthProvider';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-
+// TODO: Put all routing in seperate jsx file
 
 function App() {
   return (
@@ -21,6 +23,7 @@ function App() {
     <Router>
       <div>
       <NavBar /> {/* shows on every page */}
+      <ToastContainer />
         <Routes>
           <Route path="/" element={<Navigate to="/login" />} />
           <Route path="/register" element={<RegisterPage />} />

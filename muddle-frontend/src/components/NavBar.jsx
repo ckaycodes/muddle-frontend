@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { useAuth } from '../api/useAuth';
+import { useAuth } from '../hooks/useAuth';
 
 
 function NavBar() {
@@ -9,7 +9,6 @@ function NavBar() {
   return (
 
     <nav style={{ padding: '1rem', backgroundColor: '#f3f3f3' }}>
-      <Link to="/register" style={{ marginRight: '1rem' }}>Register</Link>
       <Link to="/users" style={{ marginRight: '1rem' }}>Users</Link>
 
     
@@ -19,7 +18,10 @@ function NavBar() {
             <button onClick={logout} style={{ marginRight: '1rem' }}>Logout</button>
           </>
         ) : (
+          <> 
+          <Link to="/register" style={{ marginRight: '1rem' }}>Register</Link>
           <Link to="/login">Login</Link>
+          </>
         )}
     </nav>
   );

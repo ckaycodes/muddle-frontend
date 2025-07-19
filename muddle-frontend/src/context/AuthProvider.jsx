@@ -1,3 +1,6 @@
+
+// TODO: Clean up AuthContext and API separation later
+
 import { createContext, useState, useEffect } from 'react';
 
 export const AuthContext = createContext();

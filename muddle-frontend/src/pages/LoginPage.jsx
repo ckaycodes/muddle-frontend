@@ -1,46 +1,39 @@
 import React, { useState } from 'react';
 import api from '../api/api';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../api/useAuth';
+import { useAuth } from '../hooks/useAuth';
+import { toast } from 'react-toastify';
+import { capitalizeFirstLetter } from '../utils/stringHelpers';
+import { useFormSubmitHandler } from '../hooks/useFormSubmitHandler';
 
 function LoginPage() {
-  const [credentials, setCredentials] = useState({ username: '', password: '' });
-  const [error, setError] = useState('');
-
   const { login } = useAuth();
-
   const navigate = useNavigate();
+
+  const [credentials, setCredentials] = useState({ username: '', password: '' });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setCredentials(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError('');
-
-    try {
-      const res = await api.post('/auth/login', credentials);
-      login(res.data.token);
-      // localStorage.setItem('token', res.data.token); // Store JWT 
-      
-      navigate('/profile'); 
-    } catch (err) {
-      console.error('Login failed:', err);
-      setError('Invalid username or password.');
-    }
+  const onSubmit = async () => {
+    const res = await api.post('/auth/login', credentials);
+    login(res.data.token);
+    navigate('/profile');
+    toast.success('Hey ' + capitalizeFirstLetter(credentials.username) + '!');
   };
+
+  const { handleSubmit, isSubmitting } = useFormSubmitHandler();
 
   return (
     <div style={{ padding: '2rem' }}>
       <h2>Login</h2>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit(onSubmit, '', 'Invalid username or password')}>
         <input
           type="text"
           name="username"
-          placeholder="Username"
+          placeholder="First name"
           value={credentials.username}
           onChange={handleChange}
           required
@@ -53,7 +46,9 @@ function LoginPage() {
           onChange={handleChange}
           required
         /><br /><br />
-        <button type="submit">Login</button>
+        <button type="submit" disabled={isSubmitting}>
+          {isSubmitting ? 'Submitting...' : 'Login'}
+        </button>
       </form>
     </div>
   );

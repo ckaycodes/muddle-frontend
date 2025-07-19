@@ -1,6 +1,7 @@
 import React from 'react';
 import { jwtDecode } from 'jwt-decode';
 import LogoutButton from '../components/LogoutButton';
+import { capitalizeFirstLetter } from '../utils/stringHelpers';
 
 function ProfilePage() {
   
@@ -20,7 +21,7 @@ function ProfilePage() {
     <div style={{ padding: '2rem' }}>
       <h1>Profile Page</h1>
       {token ? (
-        <p>Hello, <strong>{username}</strong> 👋</p>
+        <p>Hello, <strong>{capitalizeFirstLetter(username)}</strong> 👋</p>
       ) : (
         <p>You are not logged in.</p>
       )}

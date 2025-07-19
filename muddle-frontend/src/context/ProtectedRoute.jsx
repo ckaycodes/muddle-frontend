@@ -1,5 +1,5 @@
 import { Navigate } from 'react-router-dom';
-import { useAuth } from '../api/useAuth';
+import { useAuth } from '../hooks/useAuth';
 
 function ProtectedRoute({ children }) {
   const { isLoggedIn } = useAuth();

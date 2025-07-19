@@ -1,7 +1,7 @@
 //TODO -- Update after we implement AuthProvider.jsx
 
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../api/useAuth';
+import { useAuth } from '../hooks/useAuth';
 
 
 const LogoutButton = () => {
