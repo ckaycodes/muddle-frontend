@@ -9,6 +9,8 @@ function NavBar() {
 
   const toggleMenu = () => setIsOpen(!isOpen);
 
+//TODO : Add "Logged in as" next to title(?)
+
   return (
     <nav className="bg-emerald-600 text-white p-4">
       <div className="flex items-center justify-between">
