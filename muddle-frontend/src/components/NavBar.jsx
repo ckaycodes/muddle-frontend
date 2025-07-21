@@ -1,28 +1,52 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
-
+import { Menu, X } from 'lucide-react'; // assuming you're using lucide-react for icons
 
 function NavBar() {
   const { isLoggedIn, logout } = useAuth();
+  const [isOpen, setIsOpen] = useState(false);
+
+  const toggleMenu = () => setIsOpen(!isOpen);
 
   return (
+    <nav className="bg-emerald-600 text-white p-4">
+      <div className="flex items-center justify-between">
+        <Link to="/" className="text-xl font-bold">
+          Muddle
+        </Link>
+        <button className="md:hidden" onClick={toggleMenu}>
+          {isOpen ? <X /> : <Menu />}
+        </button>
+      </div>
 
-    <nav style={{ padding: '1rem', backgroundColor: '#f3f3f3' }}>
-      <Link to="/users" style={{ marginRight: '1rem' }}>Users</Link>
+      {/* Links */}
+      <div
+        className={`${
+          isOpen ? 'block' : 'hidden'
+        } md:flex md:items-center md:space-x-6 mt-4 md:mt-0`}
+      >
 
-    
-      {isLoggedIn ? (
+        {isLoggedIn ? (
           <>
-            <Link to="/stories" style={{ marginRight: '1rem' }}>Stories</Link>
-            <button onClick={logout} style={{ marginRight: '1rem' }}>Logout</button>
+            <Link to="/stories" className="block mt-2 md:mt-0 hover:text-muddleGreen-300">
+              Stories
+            </Link>
+            <button onClick={logout} className="block mt-2 md:mt-0 hover:text-muddleGreen-300">
+              Logout
+            </button>
           </>
         ) : (
-          <> 
-          <Link to="/register" style={{ marginRight: '1rem' }}>Register</Link>
-          <Link to="/login">Login</Link>
+          <>
+            <Link to="/register" className="block mt-2 md:mt-0 hover:text-muddleGreen-300">
+              Register
+            </Link>
+            <Link to="/login" className="block mt-2 md:mt-0 hover:text-muddleGreen-300">
+              Login
+            </Link>
           </>
         )}
+      </div>
     </nav>
   );
 }

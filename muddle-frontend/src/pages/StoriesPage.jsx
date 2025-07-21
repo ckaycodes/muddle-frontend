@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react';
 import api from '../api/api';
 import { toast } from 'react-toastify';
 import { useFormSubmitHandler } from '../hooks/useFormSubmitHandler';
+import Button from '../components/Button';
+import FormInput from '../components/FormInput';
+import { capitalizeFirstLetter } from '../utils/stringHelpers';
 
 function StoriesPage() {
   const [stories, setStories] = useState([]);
@@ -9,7 +12,6 @@ function StoriesPage() {
   const [loading, setLoading] = useState(true);
   const { handleSubmit, isSubmitting } = useFormSubmitHandler();
 
-  // Fetch existing stories on mount
   useEffect(() => {
     api.get('/stories')
       .then(res => {
@@ -24,10 +26,7 @@ function StoriesPage() {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setNewStory(prev => ({
-      ...prev,
-      [name]: value
-    }));
+    setNewStory(prev => ({ ...prev, [name]: value }));
   };
 
   const onSubmit = async () => {
@@ -38,47 +37,52 @@ function StoriesPage() {
   };
 
   return (
-    <div style={{ padding: '2rem' }}>
-      <h1>Stories</h1>
+    <div className="max-w-2xl mx-auto px-4 py-10 bg-white rounded-xl shadow-md">
+      <h1 className="text-3xl font-bold mb-6 text-emerald-800">Stories</h1>
 
       {loading ? (
-        <p>Loading stories...</p>
+        <p className="text-gray-500">Loading stories...</p>
       ) : (
-        <ul style={{ listStyleType: 'none', padding: 0 }}>
+        <ul className="space-y-4 mb-10">
           {stories.map(story => (
-            <li key={story.id} style={{ marginBottom: '1rem', border: '1px solid #ccc', padding: '1rem', borderRadius: '8px' }}>
-              <h3>{story.title}</h3>
-              <p>{story.body}</p>
-              <small>Posted by: <strong>{story.postedBy}</strong></small>
+            <li
+              key={story.id}
+              className="bg-green-50 p-4 rounded-lg shadow-sm border border-green-100"
+            >
+              <h3 className="text-xl font-semibold text-emerald-700">{story.title}</h3>
+              <p className="text-gray-700">{story.body}</p>
+              <small className="text-gray-500 block mt-2">
+                Posted by: <strong>{capitalizeFirstLetter(story.postedBy)}</strong>
+              </small>
             </li>
           ))}
         </ul>
       )}
 
-      <h2>Post a New Story</h2>
-      <form onSubmit={handleSubmit(onSubmit, 'Story posted', "Error: Can't post story")}>
-        <input
-          type="text"
+      <h2 className="text-2xl font-semibold mb-4 text-emerald-700">Post a New Story</h2>
+      <form onSubmit={handleSubmit(onSubmit, 'Story posted', "Error: Can't post story")} className="space-y-4">
+        <FormInput
           name="title"
+          type="text"
           placeholder="Title"
           value={newStory.title}
           onChange={handleChange}
           required
-        /><br /><br />
+        />
 
         <textarea
           name="body"
           placeholder="Write your story..."
-          rows={4}
-          cols={50}
+          rows={5}
+          className="w-full border border-gray-300 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-emerald-400"
           value={newStory.body}
           onChange={handleChange}
           required
-        /><br /><br />
+        />
 
-        <button type="submit" disabled={isSubmitting}>
+        <Button type="submit" disabled={isSubmitting}>
           {isSubmitting ? 'Submitting...' : 'Post Story'}
-        </button>
+        </Button>
       </form>
     </div>
   );
