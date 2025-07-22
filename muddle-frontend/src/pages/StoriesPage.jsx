@@ -5,6 +5,8 @@ import { useFormSubmitHandler } from '../hooks/useFormSubmitHandler';
 import Button from '../components/Button';
 import FormInput from '../components/FormInput';
 import { capitalizeFirstLetter } from '../utils/stringHelpers';
+import TextareaAutosize from 'react-textarea-autosize';
+
 
 function StoriesPage() {
   const [stories, setStories] = useState([]);
@@ -50,7 +52,7 @@ function StoriesPage() {
               className="bg-green-50 p-4 rounded-lg shadow-sm border border-green-100"
             >
               <h3 className="text-xl font-semibold text-emerald-700">{story.title}</h3>
-              <p className="text-gray-700">{story.body}</p>
+              <p className="text-gray-700 break-words whitespace-pre-wrap">{story.body}</p>
               <small className="text-gray-500 block mt-2">
                 Posted by: <strong>{capitalizeFirstLetter(story.postedBy)}</strong>
               </small>
@@ -70,11 +72,13 @@ function StoriesPage() {
           required
         />
 
-        <textarea
+        <TextareaAutosize
           name="body"
           placeholder="Write your story..."
-          rows={5}
-          className="w-full border border-gray-300 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-emerald-400"
+          minRows={3}
+          maxRows={10}
+          wrap="soft"
+          className="w-full border border-gray-300 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-emerald-400 resize-none break-words whitespace-pre-wrap overflow-hidden"
           value={newStory.body}
           onChange={handleChange}
           required

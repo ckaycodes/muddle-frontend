@@ -3,20 +3,22 @@ import ProtectedRoute from '../context/ProtectedRoute';
 import ProfilePage from '../pages/ProfilePage';
 import RegisterPage from '../pages/RegisterPage';
 import StoriesPage from '../pages/StoriesPage';
-import UsersPage from '../pages/UsersPage';
 import LoginPage from '../pages/LoginPage';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Layout from '../components/Layout';
+import ProfilesListPage from '../pages/ProfileListPage';
+import ProfileDetailPage from '../pages/ProfileDetailPage';
+import HomePage from '../pages/HomePage';
 
 export default function AppRoutes() { 
     return (
     <> 
     <ToastContainer />
       <Routes>
-          <Route path="/" element={<Layout><Navigate to="/login" /> </Layout>} />
+          <Route path="/" element={<Layout><Navigate to="/homePage" /> </Layout>} />
+          <Route path="/homePage" element={<Layout><HomePage/></Layout>} />
           <Route path="/register" element={<Layout><RegisterPage /></Layout>} />
-          <Route path="/users" element={<Layout> <UsersPage /></Layout>} />
           <Route path="/login" element={<Layout> <LoginPage /> </Layout>} /> 
           <Route path="/stories" element={
             <ProtectedRoute>
@@ -25,6 +27,14 @@ export default function AppRoutes() {
           <Route path="/profile" element={
             <ProtectedRoute>
               <Layout> <ProfilePage /> </Layout>
+            </ProtectedRoute>} />
+          <Route path="/profileList" element={ 
+            <ProtectedRoute> 
+              <Layout> <ProfilesListPage/> </Layout>
+            </ProtectedRoute>} />
+            <Route path="/profile/:id" element={ 
+            <ProtectedRoute> 
+              <Layout> <ProfileDetailPage/> </Layout>
             </ProtectedRoute>} />
       </Routes>
   </>

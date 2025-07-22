@@ -21,7 +21,7 @@ export default function CoffeeRoastSelect({ selectedRoast, onSelect }) {
             type="button"
             style={{
               backgroundColor: roast.hexColor,
-              opacity: isSelected ? 1 : 0.6,
+              opacity: isSelected ? 1 : 0.9,
               border: isSelected ? "2px solid white" : "none",
             }}
             className="px-4 py-2 rounded text-white shadow-md w-full transition-all"
