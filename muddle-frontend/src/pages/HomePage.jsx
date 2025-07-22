@@ -12,7 +12,7 @@ function HomePage() {
         <div className="max-w-3xl w-full bg-white rounded-xl shadow-md p-8 text-center">
           {/* Logo & Title */}
           <div className="mb-6">
-            <img src="/logo.png" alt="Muddle Logo" className="mx-auto h-16 mb-2" />
+            <img src="/M.png" alt="Muddle Logo" className="mx-auto w-28 sm:w-36 md:w-44 lg:w-52 h-auto mb-2 max-w-full" />
             <h1 className="text-4xl font-extrabold text-emerald-700">
               Welcome to Muddle!
             </h1>

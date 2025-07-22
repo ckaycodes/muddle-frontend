@@ -2,7 +2,7 @@ import axios from "axios";
 
 // api hook
 const api = axios.create({
-  baseURL: "http://localhost:8080/api",
+  baseURL: "https://muddlepriv.onrender.com/api",
 });
 
 api.interceptors.request.use(
