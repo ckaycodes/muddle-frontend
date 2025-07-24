@@ -27,7 +27,7 @@ function NavBar() {
       <div
         className={`${
           isOpen ? 'block' : 'hidden'
-        } md:flex md:items-center md:space-x-6 mt-4 md:mt-0`}
+        } md:flex md:items-center md:space-x-6 mt-4 md:mt-0 bg-emerald-700 p-4 rounded-md space-y-2 md:space-y-0 shadow-md`}
       >
 
         {isLoggedIn ? (

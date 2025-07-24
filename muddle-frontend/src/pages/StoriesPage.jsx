@@ -33,7 +33,7 @@ function StoriesPage() {
 
   const onSubmit = async () => {
     const response = await api.post('/stories', newStory);
-    setStories(prev => [...prev, response.data]);
+    setStories(prev => [response.data, ...prev]);
     setNewStory({ title: '', body: '' });
     toast.success('Story posted');
   };
