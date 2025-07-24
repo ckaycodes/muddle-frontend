@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { jwtDecode } from 'jwt-decode'; 
 import { capitalizeFirstLetter } from '../utils/stringHelpers';
 import CoffeeRoastSelect from '../context/CoffeeRoastSelect';
@@ -14,28 +14,63 @@ function ProfilePage() {
   const [birthday, setBirthday] = useState('');
   const { handleSubmit, isSubmitting } = useFormSubmitHandler();
 
-  const {isLoggedIn, user} = useAuth();
+  const { isLoggedIn, user } = useAuth();
   const username = user?.sub || user?.username || 'User';
 
   const submitProfile = async () => {
     await api.put('/profile', { bio, equippedBadge, favoriteRoast, dateHired, birthday });
   };
 
-
   const badgeOptions = [
-  'Brings Vibes',
-  'Comedian',
-  'Tasking Master',
-  'Clumsy',
-  'Tired',
-  'Overthinker',
-  'Day One OG', 
-  'Workaholic',
-  'Running Off Caffeine',
-  'Meow',
-  'Oblivious',
-  'Pastry Pirate'
+    'Brings Vibes',
+    'Comedian',
+    'Tasking Master',
+    'Clumsy',
+    'Tired',
+    'Overthinker',
+    'Day One OG', 
+    'Workaholic',
+    'Running Off Caffeine',
+    'Meow',
+    'Oblivious',
+    'Pastry Pirate'
   ];
+
+  useEffect(() => {
+  if (!user?.sub) return;
+
+  const fetchProfile = async () => {
+    try {
+      const res = await api.get('/profile'); // fetch all profiles
+      const profiles = res.data;
+
+      // Find the profile matching the current username (user.sub)
+      const currentUserProfile = profiles.find(p => p.username === user.sub);
+
+      if (currentUserProfile) {
+        setBio(currentUserProfile.bio || '');
+        setFavoriteRoast(currentUserProfile.favoriteRoast || '');
+        setBadge(currentUserProfile.equippedBadge || '');
+        setDateHired(currentUserProfile.dateHired || '');
+        setBirthday(currentUserProfile.birthday || '');
+      } else {
+        // No profile found for user, keep fields empty
+        setBio('');
+        setFavoriteRoast('');
+        setBadge('');
+        setDateHired('');
+        setBirthday('');
+      }
+    } catch (err) {
+      console.error('Failed to fetch profiles:', err);
+    }
+  };
+
+  fetchProfile();
+}, [user?.sub]);
+
+
+
 
   return (
     <div className="p-6 max-w-xl mx-auto">
@@ -64,7 +99,7 @@ function ProfilePage() {
           <textarea 
             value={bio}
             onChange={(e) => setBio(e.target.value)}
-            placeholder="Tell us about you!..."
+            placeholder={"Tell us about you!..."}
             className="w-full border border-gray-300 rounded-md p-2"
             rows={3}
           />
@@ -73,41 +108,40 @@ function ProfilePage() {
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">Badge</label>
           <select 
-            value = {equippedBadge}
-            onChange = {(e) => setBadge(e.target.value)}
+            value={equippedBadge}
+            onChange={(e) => setBadge(e.target.value)}
             className="w-full border border-gray-300 rounded-md p-3 text-lg"
           >
-          <option value="" disabled>Select a badge🏅</option>
-          {badgeOptions.map((badge) => (
-            <option key={badge} value={badge}>
-              {badge}
-            </option>
-          ))}
+            <option value="" disabled>Select a badge🏅</option>
+            {badgeOptions.map((badge) => (
+              <option key={badge} value={badge}>
+                {badge}
+              </option>
+            ))}
           </select>
         </div>
 
-          <label className="block text-sm font-medium text-gray-700 mb-1">Date Hired</label>
-          <input
-            type="date"
-            value={dateHired || ""}
-            onChange={(e) => setDateHired(e.target.value || null)}
-            className="w-full border border-gray-300 rounded-md p-2"
-            min="2016-08-21"
-            max={new Date().toISOString().split("T")[0]} //restrict to today or earlier
-            required 
-          />
+        <label className="block text-sm font-medium text-gray-700 mb-1">Date Hired</label>
+        <input
+          type="date"
+          value={dateHired || ''}
+          onChange={(e) => setDateHired(e.target.value || null)}
+          className="w-full border border-gray-300 rounded-md p-2"
+          min="2016-08-21"
+          max={new Date().toISOString().split("T")[0]}
+          required
+        />
 
-          <label className="block text-sm font-medium text-gray-700 mb-1">Birthday🎉</label>
-          <input
-            type="date"
-            value={birthday || ""}
-            onChange={(e) => setBirthday(e.target.value || null)}
-            className="w-full border border-gray-300 rounded-md p-2"
-            min="1900-00-00"
-            max={new Date().toISOString().split("T")[0]} //restrict to today or earlier
-            required 
-          />
-
+        <label className="block text-sm font-medium text-gray-700 mb-1">Birthday🎉</label>
+        <input
+          type="date"
+          value={birthday || ''}
+          onChange={(e) => setBirthday(e.target.value || null)}
+          className="w-full border border-gray-300 rounded-md p-2"
+          min="1900-01-01"
+          max={new Date().toISOString().split("T")[0]}
+          required
+        />
 
         <button 
           type="submit" 

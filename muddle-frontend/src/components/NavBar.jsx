@@ -38,6 +38,9 @@ function NavBar() {
             <Link to="/profileList" className="block mt-2 md:mt-0 hover:text-emerald-200">
             Philz Pham 
             </Link> 
+            <Link to= "/profile" className="block mt-2 md:mt-0 hover:text-emerald-200">
+              Profile
+            </Link>
             <button onClick={logout} className="block mt-2 md:mt-0 hover:text-emerald-200">
               Logout
             </button>
