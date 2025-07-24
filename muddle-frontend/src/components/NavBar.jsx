@@ -13,7 +13,7 @@ function NavBar() {
 
   return (
     <nav className="bg-emerald-600 text-white p-4">
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between ">
         <Link to="/" className="text-xl font-bold">
         <img src="/MintLeaf.png" alt="Mint Leaf" className="w-15 h-20" />
         
