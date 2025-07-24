@@ -33,7 +33,9 @@ function ProfilePage() {
     'Running Off Caffeine',
     'Meow',
     'Oblivious',
-    'Pastry Pirate'
+    'Pastry Pirate',
+    'Aura Farmer',
+    'Night Owl'
   ];
 
   useEffect(() => {
@@ -44,7 +46,7 @@ function ProfilePage() {
       const res = await api.get('/profile'); // fetch all profiles
       const profiles = res.data;
 
-      // Find the profile matching the current username (user.sub)
+      // Find the profile matching the current username (user.sub) --> Slow but will do for now
       const currentUserProfile = profiles.find(p => p.username === user.sub);
 
       if (currentUserProfile) {
