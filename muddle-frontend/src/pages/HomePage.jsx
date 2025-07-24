@@ -12,14 +12,16 @@ function HomePage() {
         <div className="max-w-xl w-full bg-white rounded-md shadow-xl p-2 text-center">
           {/* Logo & Title */}
           <div className="mb-2">
-            <img src="/Muddle.png" alt="Muddle Logo" className="mx-auto w-50 sm:w-40 md:w-44 lg:w-52 h-auto mb-2 max-w-full" />
+            <img src="/Muddle.png" alt="Muddle Logo" className="mx-auto w-40 sm:w-40 md:w-44 lg:w-56 h-auto mb-4 max-w-full" />
             <h1 className="text-4xl font-extrabold text-emerald-700">
         
             </h1>
             {isLoggedIn && user && (
-              <p className="mt-2 text-gray-600 text-lg">
-                Hello, {capitalizeFirstLetter(user.sub)} 👋
-              </p>
+              <div className="mt-4">
+                <p className="text-emerald-800 text-lg">
+                  Hello, {capitalizeFirstLetter(user.sub)} 👋
+                </p>
+              </div>
             )}
 
           </div>
