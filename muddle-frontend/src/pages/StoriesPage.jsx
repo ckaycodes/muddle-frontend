@@ -6,6 +6,8 @@ import Button from '../components/Button';
 import FormInput from '../components/FormInput';
 import { capitalizeFirstLetter } from '../utils/stringHelpers';
 import TextareaAutosize from 'react-textarea-autosize';
+import LikeButton from '../components/LikeButton';
+
 
 
 function StoriesPage() {
@@ -38,6 +40,18 @@ function StoriesPage() {
     toast.success('Story posted');
   };
 
+  const updateStoryLikeState = (storyId, newLiked, newLikeCount) => {
+    setStories(prevStories =>
+      prevStories.map(story =>
+        story.id === storyId
+          ? { ...story, likedByCurrentUser: newLiked, likeCount: newLikeCount }
+          : story
+      )
+    );
+  };
+
+
+
   return (
     <div className="max-w-2xl mx-auto px-4 py-10 bg-white rounded-xl shadow-md">
       <h1 className="text-3xl font-bold mb-6 text-emerald-800">Stories</h1>
@@ -56,6 +70,16 @@ function StoriesPage() {
               <small className="text-gray-500 block mt-2">
                 Posted by: <strong>{capitalizeFirstLetter(story.postedBy)}</strong>
               </small>
+
+              <div className="mt-2">
+                <LikeButton
+                  storyId={story.id}
+                  initialLiked={story.likedByCurrentUser}
+                  initialLikeCount={story.likeCount}
+                  onLikeChange={updateStoryLikeState}
+                />
+
+              </div>
             </li>
           ))}
         </ul>

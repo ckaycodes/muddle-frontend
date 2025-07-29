@@ -1,8 +1,7 @@
 import axios from "axios";
 
-// api hook
 const api = axios.create({
-  baseURL: "https://muddlepriv.onrender.com/api",
+  baseURL: import.meta.env.VITE_API_BASE_URL || "https://muddlepriv.onrender.com/api",
 });
 
 api.interceptors.request.use(
