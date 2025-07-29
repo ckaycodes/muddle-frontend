@@ -8,15 +8,14 @@ import { capitalizeFirstLetter } from '../utils/stringHelpers';
 import TextareaAutosize from 'react-textarea-autosize';
 import LikeButton from '../components/LikeButton';
 
-
-
 function StoriesPage() {
   const [stories, setStories] = useState([]);
   const [newStory, setNewStory] = useState({ title: '', body: '' });
   const [loading, setLoading] = useState(true);
   const { handleSubmit, isSubmitting } = useFormSubmitHandler();
 
-  useEffect(() => {
+  // Function to fetch stories
+  const fetchStories = () => {
     api.get('/stories')
       .then(res => {
         setStories(res.data);
@@ -26,6 +25,18 @@ function StoriesPage() {
         console.error('Failed to fetch stories:', err);
         setLoading(false);
       });
+  };
+
+  // Initial fetch and polling every 15 seconds
+  useEffect(() => {
+    fetchStories();
+
+    const interval = setInterval(() => {
+      fetchStories();
+    }, 15000); // 15000ms = 15 seconds
+
+    // Cleanup interval on unmount
+    return () => clearInterval(interval);
   }, []);
 
   const handleChange = (e) => {
@@ -39,18 +50,6 @@ function StoriesPage() {
     setNewStory({ title: '', body: '' });
     toast.success('Story posted');
   };
-
-  const updateStoryLikeState = (storyId, newLiked, newLikeCount) => {
-    setStories(prevStories =>
-      prevStories.map(story =>
-        story.id === storyId
-          ? { ...story, likedByCurrentUser: newLiked, likeCount: newLikeCount }
-          : story
-      )
-    );
-  };
-
-
 
   return (
     <div className="max-w-2xl mx-auto px-4 py-10 bg-white rounded-xl shadow-md">
@@ -76,9 +75,7 @@ function StoriesPage() {
                   storyId={story.id}
                   initialLiked={story.likedByCurrentUser}
                   initialLikeCount={story.likeCount}
-                  onLikeChange={updateStoryLikeState}
                 />
-
               </div>
             </li>
           ))}
