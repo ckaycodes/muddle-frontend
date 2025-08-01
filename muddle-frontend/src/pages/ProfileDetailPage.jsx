@@ -4,7 +4,7 @@ import api from '../api/api';
 import { capitalizeFirstLetter } from '../utils/stringHelpers';
 
 function ProfileDetailPage() {
-  const { id } = useParams();
+  const { id } = useParams(); // If the route is `/profile/42`, `id` will be `"42"`.
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
 

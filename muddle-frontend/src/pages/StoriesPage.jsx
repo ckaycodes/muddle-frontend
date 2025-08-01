@@ -46,7 +46,7 @@ function StoriesPage() {
 
   const onSubmit = async () => {
     const response = await api.post('/stories', newStory);
-    setStories(prev => [response.data, ...prev]);
+    setStories(prev => [...prev, response.data]);
     setNewStory({ title: '', body: '' });
     toast.success('Story posted');
   };
@@ -73,8 +73,8 @@ function StoriesPage() {
               <div className="mt-2">
                 <LikeButton
                   storyId={story.id}
-                  initialLiked={story.likedByCurrentUser}
-                  initialLikeCount={story.likeCount}
+                  initialLiked={story.likedByCurrentUser} //Displays liked if the story is already liked by user
+                  initialLikeCount={story.likeCount} //Displays total like count
                 />
               </div>
             </li>
