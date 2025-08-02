@@ -32,7 +32,7 @@ function ProfileDetailPage() {
       <p>{profile.bio}</p>
       <p><strong>Badge:</strong> {profile.equippedBadge || 'None'}</p>
       <p><strong>Favorite Roast:</strong> {capitalizeFirstLetter(profile.favoriteRoast || 'N/A')}</p>
-      {profile.dateHired && (
+      {profile.dateHired && ( // Only render this JSX if the condition is truthy
         <p><strong>Hired:</strong> {new Date(profile.dateHired).toLocaleDateString()}</p>
       )}
       {profile.birthday && (
