@@ -31,7 +31,7 @@ function ProfileDetailPage() {
       <h1 className = "text-xl font-semibold mb-1">{capitalizeFirstLetter(profile.userName || profile.username)}</h1>
       <p>{profile.bio}</p>
       <p><strong>Badge:</strong> {profile.equippedBadge || 'None'}</p>
-      <p><strong>Favorite Roast:</strong> {capitalizeFirstLetter(profile.favoriteRoast || 'N/A')}</p>
+      <p><strong>Favorite Blend:</strong> {capitalizeFirstLetter(profile.favoriteRoast || 'N/A')}</p>
       {profile.dateHired && ( // Only render this JSX if the condition is truthy
         <p><strong>Hired:</strong> {new Date(profile.dateHired).toLocaleDateString()}</p>
       )}
