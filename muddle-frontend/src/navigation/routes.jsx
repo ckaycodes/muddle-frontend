@@ -10,6 +10,7 @@ import Layout from '../components/Layout';
 import ProfilesListPage from '../pages/ProfileListPage';
 import ProfileDetailPage from '../pages/ProfileDetailPage';
 import HomePage from '../pages/HomePage';
+import StoryDetailPage from '../pages/StoryDetailPage';
 
 export default function AppRoutes() { 
     return (
@@ -20,18 +21,27 @@ export default function AppRoutes() {
           <Route path="/homePage" element={<Layout><HomePage/></Layout>} />
           <Route path="/register" element={<Layout><RegisterPage /></Layout>} />
           <Route path="/login" element={<Layout> <LoginPage /> </Layout>} /> 
+          
           <Route path="/stories" element={
             <ProtectedRoute>
               <Layout> <StoriesPage /> </Layout>
             </ProtectedRoute>} />
+
+          <Route path="/stories/:id" element={
+            <ProtectedRoute>
+              <Layout> <StoryDetailPage/> </Layout>
+            </ProtectedRoute>} />
+
           <Route path="/profile" element={
             <ProtectedRoute>
               <Layout> <ProfilePage /> </Layout>
             </ProtectedRoute>} />
+
           <Route path="/profileList" element={ 
             <ProtectedRoute> 
               <Layout> <ProfilesListPage/> </Layout>
             </ProtectedRoute>} />
+
             <Route path="/profile/:id" element={ 
             <ProtectedRoute> 
               <Layout> <ProfileDetailPage/> </Layout>

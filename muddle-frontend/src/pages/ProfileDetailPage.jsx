@@ -18,7 +18,7 @@ function ProfileDetailPage() {
       } finally {
         setLoading(false);
       }
-    }
+    } 
 
     fetchProfile();
   }, [id]);

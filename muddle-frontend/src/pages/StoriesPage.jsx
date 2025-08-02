@@ -7,6 +7,7 @@ import FormInput from '../components/FormInput';
 import { capitalizeFirstLetter } from '../utils/stringHelpers';
 import TextareaAutosize from 'react-textarea-autosize';
 import LikeButton from '../components/LikeButton';
+import { Link } from 'react-router-dom';
 
 function StoriesPage() {
   const [stories, setStories] = useState([]);
@@ -48,7 +49,6 @@ function StoriesPage() {
     const response = await api.post('/stories', newStory);
     setStories(prev => [...prev, response.data]);
     setNewStory({ title: '', body: '' });
-    toast.success('Story posted');
   };
 
   return (
@@ -64,7 +64,7 @@ function StoriesPage() {
               key={story.id}
               className="bg-green-50 p-4 rounded-lg shadow-sm border border-green-100"
             >
-              <h3 className="text-xl font-semibold text-emerald-700">{story.title}</h3>
+              <Link to={`/stories/${story.id}`}><h3 className="text-xl font-semibold text-emerald-700">{story.title}</h3></Link>
               <p className="text-gray-700 break-words whitespace-pre-wrap">{story.body}</p>
               <small className="text-gray-500 block mt-2">
                 Posted by: <strong>{capitalizeFirstLetter(story.postedBy)}</strong>
