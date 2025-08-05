@@ -5,8 +5,6 @@ import api from '../api/api';
 import { toast } from 'react-toastify';
 
 
-// REWRITE THIS CLASS BY MEMORY!!!
-
 function StoryDeleteButton({ storyId }) {
   const navigate = useNavigate();
 
@@ -15,7 +13,7 @@ function StoryDeleteButton({ storyId }) {
     if (!confirmed) return;
 
     try {
-      await api.delete(`/stories/delete/${storyId}`);
+      await api.delete(`/stories/${storyId}`);
       toast.success('Story deleted successfully');
       navigate('/stories'); // Redirect after deletion
     } catch (error) {
@@ -27,7 +25,7 @@ function StoryDeleteButton({ storyId }) {
   return (
     <button
       onClick={handleDelete}
-      className="mt-4 px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition"
+      className="mt-4 px-4 py-1 bg-red-500 text-white rounded hover:bg-red-700 transition"
     >
       Delete Story
     </button>
