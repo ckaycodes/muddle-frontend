@@ -26,9 +26,6 @@ function StoryDetailItem({story}) {
         
         </div>
 
-
-
-
     )
 
 

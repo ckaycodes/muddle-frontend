@@ -62,7 +62,7 @@ function StoriesPage() {
           {stories.map(story => (
             <li
               key={story.id}
-              className="bg-green-50 p-4 rounded-lg shadow-sm border border-green-100"
+              className="bg-green-50 p-4 rounded-lg shadow-sm border border-green-200"
             >
               <Link to={`/stories/${story.id}`}><h3 className="text-xl font-semibold text-emerald-700">{story.title}</h3></Link>
               <p className="text-gray-700 break-words whitespace-pre-wrap">{story.body}</p>
