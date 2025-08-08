@@ -6,8 +6,13 @@ import { useFormSubmitHandler } from '../hooks/useFormSubmitHandler';
 import { capitalizeFirstLetter } from '../utils/stringHelpers';
 import LikeButton from '../components/LikeButton';
 import StoryDeleteButton from '../components/StoryDeleteButton';
+import { formatPostDate } from "../utils/dateUtils";
+
 
 function StoryDetailPage() {
+
+  // TODO: Make it so the edit and delete button remain on screen even after editing.
+
 
     const { id } = useParams(); // If the route is `/profile/42`, `id` will be `"42"`.
     const [story, setStory] = useState(null);
@@ -52,6 +57,7 @@ function StoryDetailPage() {
           id: story.id,
           title: editedTitle,
           body: editedBody,
+          createdAt: story.createdAt,
         });
 
         setStory(response.data);
@@ -62,11 +68,11 @@ function StoryDetailPage() {
         toast.error("Update failed");
       }
     };
-
+ 
 
     return (
   <div className="max-w-xl mx-auto p-6 bg-white shadow rounded-lg">
-
+  
     {isEditing ? (
       <>
         <input
@@ -97,17 +103,19 @@ function StoryDetailPage() {
         </div>
       </>
     ) : (
-      <>
+      <div className = "bg-green-50 p-4 rounded-lg shadow-sm border border-green-200">
         <h1 className="text-xl text-emerald-700 font-semibold mb-1">{story.title}</h1>
         <p className="text-gray-700 break-words whitespace-pre-wrap">{story.body}</p>
-      </>
+      </div>
     )}
 
     <small className="text-gray-500 block mt-2">
-      Posted by: <strong>{capitalizeFirstLetter(story.postedBy)}</strong>
+      Posted by: <strong>{capitalizeFirstLetter(story.postedBy)} </strong>  
     </small>
 
-    <div className="mt-2">
+    <small className="text-gray-500 block mt-2">{formatPostDate(story.createdAt)}</small>
+
+    <div className="mt-4">
       Likes: {story.usernamesWhoLiked.length > 0
         ? story.usernamesWhoLiked.map(name => capitalizeFirstLetter(name)).join(', ')
         : 'No likes yet'}
