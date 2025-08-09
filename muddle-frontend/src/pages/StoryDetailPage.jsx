@@ -14,27 +14,43 @@ function StoryDetailPage() {
   // TODO: Make it so the edit and delete button remain on screen even after editing.
 
 
-    const { id } = useParams(); // If the route is `/profile/42`, `id` will be `"42"`.
+    const { id, cId } = useParams();
     const [story, setStory] = useState(null);
+    const [comment, setComment] = useState(null);
     const [loading, setLoading] = useState(true);
-    const [isEditing, setIsEditing] = useState(false);
-    const [editedTitle, setEditedTitle] = useState('');
-    const [editedBody, setEditedBody] = useState('');
+    const { handleSubmit, isSubmitting } = useFormSubmitHandler();
 
-    useEffect(() => {
-        async function fetchStory() {
-        try { 
-            const response = await api.get(`/stories/${id}`);
-            setStory(response.data);
-        } catch (error) {
-            console.error("Failed to fetch story:", error);
-            toast.error("Failed to load story");
-        } finally {
-            setLoading(false);
-        }
+  useEffect(() => {
+    async function fetchStory() {
+      try { 
+        const response = await api.get(`/stories/${id}`);
+        setStory(response.data);
+      } catch (error) {
+        console.error("Failed to fetch story:", error);
+        toast.error("Failed to load story");
+      }
     }
-        fetchStory();
-    }, [id]);
+
+    async function fetchComment() { 
+      if (!cId) {
+        setComment(null); // Clear comment if no comment ID
+        return;
+      }
+      try { 
+        const response = await api.get(`/stories/${id}/comments/${cId}`);
+        setComment(response.data);
+      } catch(error) {
+        console.error("Failed to fetch comment:", error);
+        toast.error("Failed to load comment");
+      }
+    }  
+
+    setLoading(true);
+
+    // Useful to run multiple async tasks in parallel and wait for them all before continuing
+    Promise.all([fetchStory(), fetchComment()]).finally(() => setLoading(false));
+
+  }, [id, cId]);
 
 
     if (loading) return <p>Loading story...</p>;
@@ -67,6 +83,17 @@ function StoryDetailPage() {
         console.error("Failed to update story:", error);
         toast.error("Update failed");
       }
+    };
+
+      const handleChange = (e) => {
+      const { name, value } = e.target;
+      setNewStory(prev => ({ ...prev, [name]: value }));
+    };
+
+    const onSubmit = async () => {
+      const response = await api.post('/stories/comment', comment);
+      setComment(prev => [...prev, response.data]);
+      setNewStory({ title: '', body: '' });
     };
  
 
