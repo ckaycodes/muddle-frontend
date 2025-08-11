@@ -16,7 +16,8 @@ function StoryDetailPage() {
 
     const { id, cId } = useParams();
     const [story, setStory] = useState(null);
-    const [comment, setComment] = useState(null);
+    const [comment, setComments] = useState(null);
+    const [newComment, setNewComment] = useState({body: ''});
     const [loading, setLoading] = useState(true);
     const { handleSubmit, isSubmitting } = useFormSubmitHandler();
 
@@ -31,14 +32,15 @@ function StoryDetailPage() {
       }
     }
 
+    // Fetch existing comments
     async function fetchComment() { 
       if (!cId) {
-        setComment(null); // Clear comment if no comment ID
+        setComments(null); // Clear comment if no comment ID
         return;
       }
       try { 
         const response = await api.get(`/stories/${id}/comments/${cId}`);
-        setComment(response.data);
+        setComments(response.data);
       } catch(error) {
         console.error("Failed to fetch comment:", error);
         toast.error("Failed to load comment");
