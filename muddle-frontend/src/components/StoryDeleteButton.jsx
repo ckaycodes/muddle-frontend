@@ -25,8 +25,9 @@ function StoryDeleteButton({ storyId }) {
   return (
     <button
       onClick={handleDelete}
-      className="mt-4 px-4 py-1 bg-red-500 text-white rounded hover:bg-red-700 transition"
-    >
+      className="mt-4 px-4 py-1 bg-red-500 text-white rounded hover:bg-red-700 
+             transition focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
+>
       Delete Story
     </button>
   );
