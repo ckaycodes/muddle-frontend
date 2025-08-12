@@ -77,21 +77,32 @@ function StoryDetailPage() {
     setNewComment(prev => ({ ...prev, [name]: value }));
   };
 
+  //Optimistic Comment posting
   const onSubmit = async () => {
-    const response = await api.post(`/stories/${id}/comments`, newComment);
-    setComments(prev => [...prev, response.data]);
+    const tempId = Date.now();
+    const optimisticComment = { ...newComment, id: tempId, postedBy: 'You', createdAt: new Date().toISOString(), isOwner: true };
+
+    setComments(prev => [...prev, optimisticComment]);
     setNewComment({ body: '' });
-  };
+
+    try {
+      const response = await api.post(`/stories/${id}/comments`, newComment);
+      setComments(prev => prev.map(c => (c.id === tempId ? response.data : c)));
+    } catch (error) {
+      setComments(prev => prev.filter(c => c.id !== tempId));
+      toast.error("Failed to post comment");
+    }
+};
 
   return (
-    <div className="max-w-xl mx-auto p-6 bg-white shadow rounded-lg">
+    <div className="card">
       
       {/* Edit mode */}
       {isEditing ? (
         <>
           <input
             type="text"
-            className="w-full p-2 border rounded mb-2 bg-emerald-100"
+            className="input-base"
             value={editedTitle}
             onChange={(e) => setEditedTitle(e.target.value)}
           />
@@ -104,20 +115,20 @@ function StoryDetailPage() {
           <div className="space-x-2">
             <button
               onClick={saveChanges}
-              className="bg-emerald-600 text-white px-4 py-1 rounded hover:bg-green-700"
+              className="button-primary"
             >
               Save
             </button>
             <button
               onClick={cancelEditing}
-              className="bg-gray-400 text-white px-4 py-1 rounded hover:bg-gray-500"
+              className="button-secondary"
             >
               Cancel
             </button>
           </div>
         </>
       ) : (
-        <div className="bg-green-50 p-4 rounded-lg shadow-sm border border-green-200">
+        <div className="card-edit-mode">
           <h1 className="text-xl text-emerald-700 font-semibold mb-1">{story.title}</h1>
           <p className="text-gray-700 break-words whitespace-pre-wrap">{story.body}</p>
         </div>
@@ -140,7 +151,7 @@ function StoryDetailPage() {
         <div className="mt-2">
           <button
             onClick={startEditing}
-            className="mr-2 px-4 py-1 bg-emerald-600 text-white rounded hover:bg-emerald-700"
+            className="button-edit"
           >
             Edit
           </button>
@@ -148,15 +159,18 @@ function StoryDetailPage() {
         </div>
       )}
 
+      <hr className="my-4 border-t border-emerald-600"/>
+
       {/* Comment form - available to logged-in users */}
       <form onSubmit={handleSubmit(onSubmit, 'Comment posted', "Error: Can't post comment")} className="space-y-4 py-5">
         <TextareaAutosize
           name="body"
           placeholder="Reply with a comment..."
+          maxLength={500}
           minRows={3}
           maxRows={10}
           wrap="soft"
-          className="w-full border border-gray-300 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-emerald-400 resize-none break-words whitespace-pre-wrap overflow-hidden"
+          className="textarea-base"
           value={newComment.body}
           onChange={handleChange}
           required
@@ -167,15 +181,15 @@ function StoryDetailPage() {
       </form>
 
       {/* Story Comments */}
-      <div className="mt-6">
+      <div className="comments-section">
         <h2 className="text-lg font-semibold mb-2">Comments</h2>
         {comments.length === 0 ? (
           <p className="text-gray-500">No comments yet.</p>
         ) : (
           comments.map(comment => (
-            <div key={comment.id} className="border rounded p-3 mb-2 bg-gray-50">
-              <p className="text-gray-800 whitespace-pre-wrap">{comment.body}</p>
-              <small className="text-gray-500">
+            <div key={comment.id} className="comment-card">
+              <p className="comment-body">{comment.body}</p>
+              <small className="comment-meta">
                 — {capitalizeFirstLetter(comment.postedBy)} on {formatPostDate(comment.createdAt)}
               </small>
               {comment.isOwner && (
