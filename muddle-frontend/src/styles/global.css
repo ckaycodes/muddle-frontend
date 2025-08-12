@@ -40,6 +40,12 @@
   @apply transform scale-95 transition-transform duration-100;
 }
 
+.button-delete {
+  @apply bg-red-500 text-white px-4 py-1 rounded hover:bg-red-600 
+         focus:outline-none focus:ring-2 focus:ring-red-400 
+         transition-colors duration-200;
+}
+
 /* --- Cards --- */
 .card {
   @apply max-w-xl mx-auto bg-white shadow rounded-lg p-6 sm:p-4;
@@ -55,11 +61,11 @@
 
 /* --- Comments --- */
 .comments-section {
-  @apply mt-6;
+  @apply mt-3;
 }
 
 .comment-card {
-  @apply border rounded-md p-3 mb-2 bg-gray-50;
+  @apply border rounded p-4 mb-4 bg-emerald-100 shadow-sm hover:shadow-md transition-shadow duration-200;
 }
 
 .comment-body {
@@ -68,4 +74,53 @@
 
 .comment-meta {
   @apply text-gray-500;
+}
+
+/* Comment Section */
+@keyframes fadeScaleIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.fade-in {
+  animation: fadeScaleIn 0.3s ease forwards;
+}
+
+/* Speech tail for left (others) */
+.bg-gray-100::before {
+  content: "";
+  position: absolute;
+  top: 15px;
+  left: -10px;
+  width: 0;
+  height: 0;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-right: 10px solid #f3f4f6; /* Tail color same as bg-gray-100 */
+}
+
+/* Speech tail for right (owner) */
+.bg-emerald-200.owner::before {
+  content: "";
+  position: absolute;
+  top: 15px;
+  right: -10px;
+  width: 0;
+  height: 0;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-left: 10px solid #d1fae5; /* Tail color same as bg-emerald-200 */
+}
+
+/* Focus ring for delete button */
+.story-comment-delete-button:focus {
+  outline: 2px solid red; /* emerald-600 */
+  outline-offset: 2px;
+  transition: outline-offset 0.3s ease;
 }

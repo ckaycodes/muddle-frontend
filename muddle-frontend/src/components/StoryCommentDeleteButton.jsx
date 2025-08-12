@@ -29,8 +29,10 @@ function StoryCommentDeleteButton({ storyId, commentId, onDeleteSuccess }) {
     <button 
       onClick={handleDelete} 
       disabled={isDeleting}
-      className={`mt-4 px-2 py-1 rounded transition ${
-        isDeleting ? 'bg-gray-400 text-gray-700 cursor-not-allowed' : 'bg-red-500 text-white hover:bg-red-700'
+      className={`story-comment-delete-button mt-2 px-2 py-1 rounded transition ${
+        isDeleting 
+          ? 'bg-gray-400 text-gray-700 cursor-not-allowed' 
+          : 'bg-red-400 text-white hover:bg-red-700'
       }`}
     >
       {isDeleting ? 'Deleting...' : 'Delete'}

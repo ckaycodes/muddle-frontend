@@ -9,6 +9,9 @@ import { formatPostDate } from "../utils/dateUtils";
 import TextareaAutosize from 'react-textarea-autosize';
 import Button from '../components/Button';
 import StoryCommentDeleteButton from '../components/StoryCommentDeleteButton';
+import { MessageSquare } from "lucide-react"
+import StoryCommentList from '../components/StoryCommentList';
+
 
 function StoryDetailPage() {
   const { id } = useParams();
@@ -134,21 +137,20 @@ function StoryDetailPage() {
         </div>
       )}
 
-      <small className="text-gray-500 block mt-2">
-        Posted by: <strong>{capitalizeFirstLetter(story.postedBy)}</strong>
-      </small>
+      <div className="flex flex-wrap gap-x-4 gap-y-1 text-gray-500 mt-3 mb-6 ml-2 text-sm">
+        <span>Posted by: <strong>{capitalizeFirstLetter(story.postedBy)}</strong></span>
+        <span>{formatPostDate(story.createdAt)}</span>
+      </div>
 
-      <small className="text-gray-500 block mt-2">{formatPostDate(story.createdAt)}</small>
-
-      <div className="mt-4">
-        Likes: {story.usernamesWhoLiked.length > 0
+      <div className="mt-4 mb-6 ml-2">
+        💚: {story.usernamesWhoLiked.length > 0
           ? story.usernamesWhoLiked.map(name => capitalizeFirstLetter(name)).join(', ')
           : 'No likes yet'}
       </div>
 
       {/* Edit/Delete buttons - only for story owner */}
       {story.isOwner && (
-        <div className="mt-2">
+        <div className="mt-4 gap-3">
           <button
             onClick={startEditing}
             className="button-edit"
@@ -159,10 +161,11 @@ function StoryDetailPage() {
         </div>
       )}
 
-      <hr className="my-4 border-t border-emerald-600"/>
+      <hr className="my-4 border-t border-emerald-700"/>
 
       {/* Comment form - available to logged-in users */}
-      <form onSubmit={handleSubmit(onSubmit, 'Comment posted', "Error: Can't post comment")} className="space-y-4 py-5">
+      <form onSubmit={handleSubmit(onSubmit, 'Comment posted', "Error: Can't post comment")} 
+      className="space-y-4 py-5">
         <TextareaAutosize
           name="body"
           placeholder="Reply with a comment..."
@@ -182,26 +185,16 @@ function StoryDetailPage() {
 
       {/* Story Comments */}
       <div className="comments-section">
-        <h2 className="text-lg font-semibold mb-2">Comments</h2>
-        {comments.length === 0 ? (
-          <p className="text-gray-500">No comments yet.</p>
-        ) : (
-          comments.map(comment => (
-            <div key={comment.id} className="comment-card">
-              <p className="comment-body">{comment.body}</p>
-              <small className="comment-meta">
-                — {capitalizeFirstLetter(comment.postedBy)} on {formatPostDate(comment.createdAt)}
-              </small>
-              {comment.isOwner && (
-                <StoryCommentDeleteButton
-                  storyId={story.id}
-                  commentId={comment.id}
-                  onDeleteSuccess={() => setComments(prev => prev.filter(c => c.id !== comment.id))}
-                />
-              )}
-            </div>
-          ))
-        )}
+        <h2 className="flex items-center gap-2 text-lg font-semibold text-emerald-700 mb-3">
+        <MessageSquare className="w-5 h-5" />
+        Comments ({comments.length})
+      </h2>
+
+        <StoryCommentList 
+        comments={comments} 
+        storyId={story.id} 
+        onDelete={(deletedId) => setComments(prev => prev.filter(c => c.id !== deletedId))}
+      />
       </div>
     </div>
   );
