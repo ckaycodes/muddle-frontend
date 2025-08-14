@@ -1,11 +1,13 @@
 import { createContext, useState, useEffect } from 'react';
 import {jwtDecode} from 'jwt-decode';
 
+//React context that shares isLoggedIn, user, and auth functions (login, logout) across all components
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [user, setUser] = useState(null); 
+  const [user, setUser] = useState(null);  // holds jwt payload
+  const [loading, setLoading] = useState(true);
 
   // Check for token on first load
   useEffect(() => {
@@ -22,6 +24,7 @@ export const AuthProvider = ({ children }) => {
         setIsLoggedIn(false);
       }
     }
+    setLoading(false);
   }, []);
 
   const login = (token) => {
@@ -42,7 +45,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ isLoggedIn, user, login, logout }}>
+    <AuthContext.Provider value={{ isLoggedIn, user, login, logout, loading }}>
       {children}
     </AuthContext.Provider>
   );
