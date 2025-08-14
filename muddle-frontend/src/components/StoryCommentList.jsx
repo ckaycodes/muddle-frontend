@@ -21,7 +21,7 @@ export default function StoryCommentList({ comments, storyId, onDelete }) {
           >
             <p className="comment-body">{comment.body}</p>
             <small className="comment-meta block mt-1 text-gray-600">
-              — {capitalizeFirstLetter(comment.postedBy)} on {formatPostDate(comment.createdAt)}
+              — {capitalizeFirstLetter(comment.postedBy)}, {formatPostDate(comment.createdAt)}
             </small>
             {comment.isOwner && (
               <span className="inline-block mt-2 focus-visible:outline-none">
