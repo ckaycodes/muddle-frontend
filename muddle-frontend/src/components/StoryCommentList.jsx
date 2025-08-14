@@ -6,8 +6,9 @@ import { formatPostDate } from '../utils/dateUtils';
 
 export default function StoryCommentList({ comments, storyId, onDelete }) {
   return (
+
     <div>
-      {comments.length === 0 ? (
+      {comments.length === 0 ? ( //strict equality, if there are no zeros
         <p className="text-gray-500">No comments yet.</p>
       ) : (
         comments.map(comment => (
@@ -19,10 +20,12 @@ export default function StoryCommentList({ comments, storyId, onDelete }) {
               fade-in
             `}
           >
+
             <p className="comment-body">{comment.body}</p>
             <small className="comment-meta block mt-1 text-gray-600">
               — {capitalizeFirstLetter(comment.postedBy)}, {formatPostDate(comment.createdAt)}
             </small>
+            
             {comment.isOwner && (
               <span className="inline-block mt-2 focus-visible:outline-none">
                 <StoryCommentDeleteButton
@@ -36,5 +39,6 @@ export default function StoryCommentList({ comments, storyId, onDelete }) {
         ))
       )}
     </div>
+
   );
 }

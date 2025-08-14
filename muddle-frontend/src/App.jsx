@@ -4,8 +4,6 @@ import AppRoutes from './navigation/routes';
 import './styles/global.css';
 import './styles/index.css';
 
-
-
 function App() {
   return (
     <AuthProvider> 

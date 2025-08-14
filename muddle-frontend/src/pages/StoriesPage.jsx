@@ -55,7 +55,7 @@ function StoriesPage() {
     <div className="max-w-2xl mx-auto px-4 py-10 bg-white rounded-xl shadow-md">
       <h1 className="text-3xl font-bold mb-6 text-emerald-800">Stories</h1>
 
-      {loading ? (
+      {loading ? ( 
         <p className="text-gray-500">Loading stories...</p>
       ) : (
         <ul className="space-y-4 mb-10">
@@ -109,6 +109,7 @@ function StoriesPage() {
           {isSubmitting ? 'Submitting...' : 'Post Story'}
         </Button>
       </form>
+
     </div>
   );
 }
