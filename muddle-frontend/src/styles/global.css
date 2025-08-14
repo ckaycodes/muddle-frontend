@@ -1,0 +1,126 @@
+@import "tailwindcss";
+@tailwind utilities;
+
+/* --- Base inputs --- */
+.input-base,
+.textarea-base {
+  @apply w-full border rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-400;
+}
+
+.input-base {
+  @apply p-2 mb-2 bg-emerald-100;
+}
+
+.textarea-base {
+  @apply border-gray-300 p-3 resize-none break-words whitespace-pre-wrap overflow-hidden;
+}
+
+/* --- Buttons --- */
+.button-primary,
+.button-secondary,
+.button-edit {
+  @apply px-4 py-2 sm:px-3 sm:py-1 rounded-md text-white cursor-pointer transition-colors duration-200 shadow-md focus:ring-4 focus:ring-emerald-500 focus:ring-offset-2 focus:ring-offset-white outline-none;
+}
+
+.button-primary {
+  @apply bg-emerald-600 hover:bg-emerald-700;
+}
+
+.button-secondary {
+  @apply bg-gray-400 hover:bg-gray-500;
+}
+
+.button-edit {
+  @apply bg-emerald-600 hover:bg-emerald-700 mr-2;
+}
+
+.button-primary:active,
+.button-secondary:active,
+.button-edit:active {
+  @apply transform scale-95 transition-transform duration-100;
+}
+
+.button-delete {
+  @apply bg-red-500 text-white px-4 py-1 rounded hover:bg-red-600 
+         focus:outline-none focus:ring-2 focus:ring-red-400 
+         transition-colors duration-200;
+}
+
+/* --- Cards --- */
+.card {
+  @apply max-w-xl mx-auto bg-white shadow rounded-lg p-6 sm:p-4;
+}
+
+.card:hover {
+  @apply shadow-lg transition-shadow duration-300;
+}
+
+.card-edit-mode {
+  @apply bg-green-50 p-4 rounded-lg shadow-sm border border-green-200;
+}
+
+/* --- Comments --- */
+.comments-section {
+  @apply mt-3;
+}
+
+.comment-card {
+  @apply border rounded p-4 mb-4 bg-emerald-100 shadow-sm hover:shadow-md transition-shadow duration-200;
+}
+
+.comment-body {
+  @apply text-gray-800 whitespace-pre-wrap leading-relaxed mb-2;
+}
+
+.comment-meta {
+  @apply text-gray-500;
+}
+
+/* Comment Section */
+@keyframes fadeScaleIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.fade-in {
+  animation: fadeScaleIn 0.3s ease forwards;
+}
+
+/* Speech tail for left (others) */
+.bg-gray-100::before {
+  content: "";
+  position: absolute;
+  top: 15px;
+  left: -10px;
+  width: 0;
+  height: 0;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-right: 10px solid #f3f4f6; /* Tail color same as bg-gray-100 */
+}
+
+/* Speech tail for right (owner) */
+.bg-emerald-200.owner::before {
+  content: "";
+  position: absolute;
+  top: 15px;
+  right: -10px;
+  width: 0;
+  height: 0;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-left: 10px solid #d1fae5; /* Tail color same as bg-emerald-200 */
+}
+
+/* Focus ring for delete button */
+.story-comment-delete-button:focus {
+  outline: 2px solid red; /* emerald-600 */
+  outline-offset: 2px;
+  transition: outline-offset 0.3s ease;
+}
