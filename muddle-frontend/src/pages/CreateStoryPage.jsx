@@ -24,6 +24,10 @@ function CreateStoryPage() {
         // ...prev keeps existing form data safe while moving between different input fields
     };
 
+    const handleBackNav = () => {
+      navigate('/stories');
+    }
+
 return ( 
    <div className="max-w-2xl mx-auto px-4 py-10 bg-white rounded-xl shadow-md">
      <h2 className="text-2xl font-semibold mb-4 text-emerald-700">Post a New Story</h2>
@@ -48,11 +52,21 @@ return (
           onChange={handleChange}
           required
         />
+        
+        {/* Need to make it so only the pressed button changes colors!!! */}
 
+        <div className = "flex justify-between items-center mb-6" >
+        <Button type="button" onClick = {handleBackNav} disabled={isSubmitting}>
+          {isSubmitting ? 'Going back...' : 'Back'}
+        </Button>
+        
         <Button type="submit" disabled={isSubmitting}>
           {isSubmitting ? 'Submitting...' : 'Post Story'}
         </Button>
+        
+        </div>
       </form>
+    
     </div>
     )
 }
