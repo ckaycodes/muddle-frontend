@@ -5,8 +5,8 @@ export const useFormSubmitHandler = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleSubmit = (callback, successMessage, errorMessage) => async (e) => {
-    e.preventDefault();
-    if (isSubmitting) return;
+    e.preventDefault(); //prevents default form submission behavior
+    if (isSubmitting) return; //checks if there is already a submission underway
 
     try {
       setIsSubmitting(true);
