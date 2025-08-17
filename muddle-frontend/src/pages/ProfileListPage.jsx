@@ -1,13 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import api from '../api/api'; 
-import { capitalizeFirstLetter } from '../utils/stringHelpers';
-import { useNavigate } from 'react-router-dom';
 import ProfileListItem from '../components/ProfileListItem';
 
 function ProfilesListPage() {
   const [profiles, setProfiles] = useState([]);
   const [loading, setLoading] = useState(true);
-  const navigate = useNavigate();
 
   useEffect(() => {
     async function fetchProfiles() {

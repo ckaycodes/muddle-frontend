@@ -6,6 +6,11 @@ import { useFormSubmitHandler } from '../hooks/useFormSubmitHandler';
 import api from '../api/api';
 import { useAuth } from '../hooks/useAuth';
 
+
+
+// TODO: Import FormInput and refactor current input 
+
+
 function ProfilePage() {
   const [favoriteRoast, setFavoriteRoast] = useState('');
   const [bio, setBio] = useState('');
@@ -46,12 +51,12 @@ function ProfilePage() {
       const res = await api.get('/profile'); // fetch all profiles
       const profiles = res.data;
 
-      // Find the profile matching the current username (user.sub) --> Slow but will do for now
+      // Find the profile matching the current username & display details  (user.sub) --> Slow but will do for now
       const currentUserProfile = profiles.find(p => p.username === user.sub);
 
       if (currentUserProfile) {
         setBio(currentUserProfile.bio || '');
-        setFavoriteRoast(currentUserProfile.favoriteRoast || '');
+        setFavoriteRoast(currentUserProfile.favoriteRoast || ''); 
         setBadge(currentUserProfile.equippedBadge || '');
         setDateHired(currentUserProfile.dateHired || '');
         setBirthday(currentUserProfile.birthday || '');
@@ -124,7 +129,7 @@ function ProfilePage() {
         </div>
 
         <label className="block text-sm font-medium text-gray-700 mb-1">Date Hired</label>
-        <input
+        <input 
           type="date"
           value={dateHired || ''}
           onChange={(e) => setDateHired(e.target.value || null)}
