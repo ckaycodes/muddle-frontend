@@ -8,12 +8,14 @@ import { capitalizeFirstLetter } from '../utils/stringHelpers';
 import TextareaAutosize from 'react-textarea-autosize';
 import LikeButton from '../components/LikeButton';
 import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 function StoriesPage() {
   const [stories, setStories] = useState([]);
   const [newStory, setNewStory] = useState({ title: '', body: '' });
   const [loading, setLoading] = useState(true);
   const { handleSubmit, isSubmitting } = useFormSubmitHandler();
+  const navigate = useNavigate();
 
   // Function to fetch stories
   const fetchStories = () => {
@@ -40,20 +42,32 @@ function StoriesPage() {
     return () => clearInterval(interval);
   }, []);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setNewStory(prev => ({ ...prev, [name]: value }));
-  };
+      // const handleChange = (e) => {
+      //   const { name, value } = e.target;
+      //   setNewStory(prev => ({ ...prev, [name]: value }));
+      // };
 
-  const onSubmit = async () => {
-    const response = await api.post('/stories', newStory);
-    setStories(prev => [...prev, response.data]);
-    setNewStory({ title: '', body: '' });
-  };
+    const onSubmit = async () => {
+      const response = await api.post('/stories', newStory);
+      setStories(prev => [response.data, ...prev]);
+      setNewStory({ title: '', body: '' });
+    };
+
+
+  const handlePostNavigation = () => { 
+    navigate('/CreateStoryPage');
+  }
+
 
   return (
     <div className="max-w-2xl mx-auto px-4 py-10 bg-white rounded-xl shadow-md">
-      <h1 className="text-3xl font-bold mb-6 text-emerald-800">Stories</h1>
+      <div className="flex justify-between items-center mb-6">
+      <h1 className="text-3xl font-bold mb-6 text-emerald-800">Stories</h1> 
+      <Button className = "max-w-2xl" onClick = {handlePostNavigation}> 
+          Post Story
+      </Button>
+      </div>
+      
 
       {loading ? ( 
         <p className="text-gray-500">Loading stories...</p>
@@ -81,8 +95,7 @@ function StoriesPage() {
           ))}
         </ul>
       )}
-
-      <h2 className="text-2xl font-semibold mb-4 text-emerald-700">Post a New Story</h2>
+      {/* <h2 className="text-2xl font-semibold mb-4 text-emerald-700">Post a New Story</h2>
       <form onSubmit={handleSubmit(onSubmit, 'Story posted', "Error: Can't post story")} className="space-y-4">
         <FormInput
           name="title"
@@ -108,7 +121,7 @@ function StoriesPage() {
         <Button type="submit" disabled={isSubmitting}>
           {isSubmitting ? 'Submitting...' : 'Post Story'}
         </Button>
-      </form>
+      </form> */}
 
     </div>
   );

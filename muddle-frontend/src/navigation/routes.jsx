@@ -11,6 +11,7 @@ import ProfilesListPage from '../pages/ProfileListPage';
 import ProfileDetailPage from '../pages/ProfileDetailPage';
 import HomePage from '../pages/HomePage';
 import StoryDetailPage from '../pages/StoryDetailPage';
+import CreateStoryPage from '../pages/CreateStoryPage';
 
 export default function AppRoutes() { 
     return (
@@ -42,9 +43,14 @@ export default function AppRoutes() {
               <Layout> <ProfilesListPage/> </Layout>
             </ProtectedRoute>} />
 
-            <Route path="/profile/:id" element={ 
+          <Route path="/profile/:id" element={ 
             <ProtectedRoute> 
               <Layout> <ProfileDetailPage/> </Layout>
+            </ProtectedRoute>} />
+
+            <Route path="/CreateStoryPage" element={ 
+              <ProtectedRoute> 
+                <Layout> <CreateStoryPage/> </Layout>
             </ProtectedRoute>} />
       </Routes>
   </>

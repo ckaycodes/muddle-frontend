@@ -3,9 +3,9 @@ import React from 'react';
 export default function Button({ type = 'button', onClick, disabled, children }) {
   return (
     <button
-        type={type}
-        onClick={onClick}
-        disabled={disabled}
+        type={type} // What type of button
+        onClick={onClick} // Operation to be ran on click
+        disabled={disabled} // Disables button while submitting 
         className="
             bg-emerald-600 
             text-white 
